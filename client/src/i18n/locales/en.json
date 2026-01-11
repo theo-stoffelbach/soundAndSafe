@@ -1,0 +1,137 @@
+{
+  "common": {
+    "home": "Home",
+    "products": "Products",
+    "cart": "Cart",
+    "account": "My Account",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "close": "Close"
+  },
+  "nav": {
+    "categories": "Categories",
+    "allProducts": "All products",
+    "myOrders": "My orders",
+    "myAddresses": "My addresses",
+    "admin": "Administration"
+  },
+  "home": {
+    "hero": {
+      "title": "Your safety, our priority",
+      "subtitle": "Discover our range of quality self-defense products",
+      "cta": "View products"
+    },
+    "featured": "Featured products",
+    "categories": "Our categories",
+    "freeShipping": "Free shipping over €50"
+  },
+  "products": {
+    "title": "Our products",
+    "filter": "Filter",
+    "sort": "Sort by",
+    "price": "Price",
+    "category": "Category",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "addToCart": "Add to cart",
+    "quantity": "Quantity",
+    "description": "Description",
+    "noProducts": "No products found",
+    "lowStock": "Only {{count}} left"
+  },
+  "cart": {
+    "title": "My cart",
+    "empty": "Your cart is empty",
+    "continueShopping": "Continue shopping",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "freeShipping": "Free",
+    "total": "Total",
+    "checkout": "Checkout",
+    "remove": "Remove"
+  },
+  "checkout": {
+    "title": "Complete your order",
+    "selectAddress": "Select an address",
+    "addAddress": "Add an address",
+    "payment": "Payment",
+    "payWithPaypal": "Pay with PayPal",
+    "orderSummary": "Order summary",
+    "success": "Order confirmed!",
+    "successMessage": "Thank you for your order. You will receive a confirmation email."
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone",
+    "loginTitle": "Login",
+    "registerTitle": "Create an account",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "forgotPassword": "Forgot password?"
+  },
+  "account": {
+    "title": "My account",
+    "profile": "Profile",
+    "orders": "Orders",
+    "addresses": "Addresses",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password"
+  },
+  "orders": {
+    "title": "My orders",
+    "orderNumber": "Order #",
+    "date": "Date",
+    "status": "Status",
+    "total": "Total",
+    "details": "Details",
+    "noOrders": "No orders",
+    "statuses": {
+      "PENDING": "Pending",
+      "PAID": "Paid",
+      "PROCESSING": "Processing",
+      "SHIPPED": "Shipped",
+      "DELIVERED": "Delivered",
+      "CANCELLED": "Cancelled",
+      "REFUNDED": "Refunded"
+    }
+  },
+  "address": {
+    "label": "Label",
+    "street": "Address",
+    "city": "City",
+    "postalCode": "Postal code",
+    "country": "Country",
+    "default": "Default address",
+    "setDefault": "Set as default"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "archivedProducts": "Archived products",
+    "orders": "Orders",
+    "users": "Users",
+    "stats": "Statistics",
+    "revenue": "Revenue",
+    "totalOrders": "Total orders",
+    "totalUsers": "Total users",
+    "lowStock": "Low stock"
+  }
+}

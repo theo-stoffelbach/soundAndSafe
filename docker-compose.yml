@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: soundandsafe-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: soundandsafe
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: soundandsafe-api
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/soundandsafe?schema=public
+      JWT_SECRET: super-secret-jwt-key-change-in-production
+      JWT_EXPIRES_IN: 7d
+      PORT: 3002
+      NODE_ENV: development
+      CLIENT_URL: http://localhost:5174
+      PAYPAL_CLIENT_ID: ""
+      PAYPAL_CLIENT_SECRET: ""
+      PAYPAL_MODE: sandbox
+    ports:
+      - "3002:3002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./server/src:/app/src
+      - ./server/prisma:/app/prisma
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: soundandsafe-web
+    environment:
+      VITE_API_URL: http://localhost:3002/api
+    ports:
+      - "5174:5173"
+    depends_on:
+      - server
+
+volumes:
+  postgres_data:

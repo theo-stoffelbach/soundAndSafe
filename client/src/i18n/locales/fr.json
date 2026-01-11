@@ -1,0 +1,137 @@
+{
+  "common": {
+    "home": "Accueil",
+    "products": "Produits",
+    "cart": "Panier",
+    "account": "Mon compte",
+    "login": "Connexion",
+    "register": "Inscription",
+    "logout": "Déconnexion",
+    "search": "Rechercher",
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "add": "Ajouter",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "confirm": "Confirmer",
+    "close": "Fermer"
+  },
+  "nav": {
+    "categories": "Catégories",
+    "allProducts": "Tous les produits",
+    "myOrders": "Mes commandes",
+    "myAddresses": "Mes adresses",
+    "admin": "Administration"
+  },
+  "home": {
+    "hero": {
+      "title": "Votre sécurité, notre priorité",
+      "subtitle": "Découvrez notre gamme de produits d'autodéfense de qualité",
+      "cta": "Voir les produits"
+    },
+    "featured": "Produits vedettes",
+    "categories": "Nos catégories",
+    "freeShipping": "Livraison gratuite dès 50€"
+  },
+  "products": {
+    "title": "Nos produits",
+    "filter": "Filtrer",
+    "sort": "Trier par",
+    "price": "Prix",
+    "category": "Catégorie",
+    "inStock": "En stock",
+    "outOfStock": "Rupture de stock",
+    "addToCart": "Ajouter au panier",
+    "quantity": "Quantité",
+    "description": "Description",
+    "noProducts": "Aucun produit trouvé",
+    "lowStock": "Plus que {{count}} en stock"
+  },
+  "cart": {
+    "title": "Mon panier",
+    "empty": "Votre panier est vide",
+    "continueShopping": "Continuer mes achats",
+    "subtotal": "Sous-total",
+    "shipping": "Livraison",
+    "freeShipping": "Gratuite",
+    "total": "Total",
+    "checkout": "Passer la commande",
+    "remove": "Retirer"
+  },
+  "checkout": {
+    "title": "Finaliser ma commande",
+    "selectAddress": "Sélectionner une adresse",
+    "addAddress": "Ajouter une adresse",
+    "payment": "Paiement",
+    "payWithPaypal": "Payer avec PayPal",
+    "orderSummary": "Récapitulatif",
+    "success": "Commande confirmée !",
+    "successMessage": "Merci pour votre commande. Vous recevrez un email de confirmation."
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "phone": "Téléphone",
+    "loginTitle": "Connexion",
+    "registerTitle": "Créer un compte",
+    "noAccount": "Pas encore de compte ?",
+    "hasAccount": "Déjà un compte ?",
+    "forgotPassword": "Mot de passe oublié ?"
+  },
+  "account": {
+    "title": "Mon compte",
+    "profile": "Profil",
+    "orders": "Commandes",
+    "addresses": "Adresses",
+    "changePassword": "Changer le mot de passe",
+    "currentPassword": "Mot de passe actuel",
+    "newPassword": "Nouveau mot de passe"
+  },
+  "orders": {
+    "title": "Mes commandes",
+    "orderNumber": "Commande n°",
+    "date": "Date",
+    "status": "Statut",
+    "total": "Total",
+    "details": "Détails",
+    "noOrders": "Aucune commande",
+    "statuses": {
+      "PENDING": "En attente",
+      "PAID": "Payée",
+      "PROCESSING": "En préparation",
+      "SHIPPED": "Expédiée",
+      "DELIVERED": "Livrée",
+      "CANCELLED": "Annulée",
+      "REFUNDED": "Remboursée"
+    }
+  },
+  "address": {
+    "label": "Libellé",
+    "street": "Adresse",
+    "city": "Ville",
+    "postalCode": "Code postal",
+    "country": "Pays",
+    "default": "Adresse par défaut",
+    "setDefault": "Définir par défaut"
+  },
+  "admin": {
+    "dashboard": "Tableau de bord",
+    "products": "Produits",
+    "archivedProducts": "Produits archivés",
+    "orders": "Commandes",
+    "users": "Utilisateurs",
+    "stats": "Statistiques",
+    "revenue": "Chiffre d'affaires",
+    "totalOrders": "Total commandes",
+    "totalUsers": "Total utilisateurs",
+    "lowStock": "Stock faible"
+  }
+}
