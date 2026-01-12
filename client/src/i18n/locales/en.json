@@ -97,6 +97,7 @@
   },
   "orders": {
     "title": "My orders",
+    "viewAll": "View all orders",
     "orderNumber": "Order #",
     "date": "Date",
     "status": "Status",

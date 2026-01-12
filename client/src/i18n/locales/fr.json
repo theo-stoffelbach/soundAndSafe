@@ -97,6 +97,7 @@
   },
   "orders": {
     "title": "Mes commandes",
+    "viewAll": "Voir toutes les commandes",
     "orderNumber": "Commande n°",
     "date": "Date",
     "status": "Statut",

@@ -1,9 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, Lock } from 'lucide-react';
+import { User, Lock, Package, ChevronRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { authApi } from '../../services/api';
+import { authApi, ordersApi } from '../../services/api';
 import toast from 'react-hot-toast';
+
+interface Order {
+  id: string;
+  orderNumber: string;
+  total: string;
+  status: string;
+  createdAt: string;
+  items: { quantity: number }[];
+}
+
+const statusColors: Record<string, string> = {
+  PENDING: 'bg-yellow-100 text-yellow-800',
+  PAID: 'bg-purple-100 text-purple-800',
+  PROCESSING: 'bg-blue-100 text-blue-800',
+  SHIPPED: 'bg-indigo-100 text-indigo-800',
+  DELIVERED: 'bg-green-100 text-green-800',
+  CANCELLED: 'bg-red-100 text-red-800',
+  REFUNDED: 'bg-gray-100 text-gray-800',
+};
 
 export default function Account() {
   const { t } = useTranslation();
@@ -20,6 +40,22 @@ export default function Account() {
   });
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [loadingPassword, setLoadingPassword] = useState(false);
+  const [recentOrders, setRecentOrders] = useState<Order[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState(true);
+
+  useEffect(() => {
+    const fetchRecentOrders = async () => {
+      try {
+        const res = await ordersApi.getAll({ limit: 3 });
+        setRecentOrders(res.data.orders);
+      } catch (error) {
+        console.error('Erreur chargement commandes:', error);
+      } finally {
+        setLoadingOrders(false);
+      }
+    };
+    fetchRecentOrders();
+  }, []);
 
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,6 +104,59 @@ export default function Account() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">{t('account.title')}</h1>
+
+      {/* Section Mes commandes */}
+      <div className="card p-6 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold flex items-center">
+            <Package className="w-5 h-5 mr-2 text-primary-600" />
+            {t('orders.title')}
+          </h2>
+          <Link
+            to="/account/orders"
+            className="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center"
+          >
+            {t('orders.viewAll')}
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </Link>
+        </div>
+
+        {loadingOrders ? (
+          <p className="text-dark-500 text-center py-4">{t('common.loading')}</p>
+        ) : recentOrders.length === 0 ? (
+          <div className="text-center py-6">
+            <Package className="w-12 h-12 mx-auto text-dark-300 mb-3" />
+            <p className="text-dark-500 mb-3">{t('orders.noOrders')}</p>
+            <Link to="/products" className="btn-primary text-sm">
+              {t('cart.continueShopping')}
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {recentOrders.map((order) => (
+              <Link
+                key={order.id}
+                to={`/account/orders/${order.id}`}
+                className="flex items-center justify-between p-3 bg-dark-50 rounded-lg hover:bg-dark-100 transition-colors"
+              >
+                <div>
+                  <p className="font-medium">{order.orderNumber}</p>
+                  <p className="text-sm text-dark-500">
+                    {new Date(order.createdAt).toLocaleDateString('fr-FR')}
+                  </p>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[order.status]}`}>
+                    {t(`orders.statuses.${order.status}`)}
+                  </span>
+                  <span className="font-semibold">{parseFloat(order.total).toFixed(2)}€</span>
+                  <ChevronRight className="w-4 h-4 text-dark-400" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Profile */}
