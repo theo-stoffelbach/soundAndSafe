@@ -3,6 +3,7 @@ import {
   getOrders,
   getOrderById,
   createOrder,
+  createTestOrder,
   updateOrderStatus,
   cancelOrder
 } from '../controllers/orderController.js';
@@ -14,6 +15,7 @@ const router = Router();
 router.get('/', authenticate, getOrders);
 router.get('/:id', authenticate, getOrderById);
 router.post('/', authenticate, createOrder);
+router.post('/test', authenticate, createTestOrder); // Mode test sans PayPal
 router.post('/:id/cancel', authenticate, cancelOrder);
 
 // Routes admin

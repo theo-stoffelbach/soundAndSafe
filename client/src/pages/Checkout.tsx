@@ -135,6 +135,33 @@ export default function Checkout() {
     }
   };
 
+  // Mode test - commande sans paiement PayPal
+  const handleTestCheckout = async () => {
+    if (!selectedAddress) {
+      toast.error('Veuillez sélectionner une adresse');
+      return;
+    }
+
+    setProcessing(true);
+
+    try {
+      const orderRes = await ordersApi.createTest({
+        items: items.map((item) => ({
+          productId: item.id,
+          quantity: item.quantity,
+        })),
+        addressId: selectedAddress,
+      });
+
+      toast.success('Commande test créée avec succès !');
+      clearCart();
+      navigate(`/account/orders/${orderRes.data.id}`);
+    } catch (error: any) {
+      toast.error(error.response?.data?.error || 'Erreur lors de la commande');
+      setProcessing(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
@@ -345,6 +372,22 @@ export default function Checkout() {
                 <>
                   <CreditCard className="w-5 h-5 mr-2" />
                   {t('checkout.payWithPaypal')}
+                </>
+              )}
+            </button>
+
+            {/* Test button - Mode dev */}
+            <button
+              onClick={handleTestCheckout}
+              disabled={processing || !selectedAddress || addresses.length === 0}
+              className="w-full py-3 mt-2 flex items-center justify-center bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:opacity-50"
+            >
+              {processing ? (
+                t('common.loading')
+              ) : (
+                <>
+                  <Check className="w-5 h-5 mr-2" />
+                  Commander (Test - sans paiement)
                 </>
               )}
             </button>

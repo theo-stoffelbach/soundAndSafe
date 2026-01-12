@@ -221,6 +221,101 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
   }
 };
 
+// Mode test - commande directement payée sans PayPal
+export const createTestOrder = async (req: AuthRequest, res: Response) => {
+  try {
+    const { items, addressId, notes } = req.body;
+
+    if (!items || items.length === 0) {
+      res.status(400).json({ error: 'Le panier est vide' });
+      return;
+    }
+
+    // Vérifier l'adresse
+    const address = await prisma.address.findFirst({
+      where: { id: addressId, userId: req.user!.id },
+    });
+
+    if (!address) {
+      res.status(400).json({ error: 'Adresse non valide' });
+      return;
+    }
+
+    // Récupérer les produits et vérifier les stocks
+    const productIds = items.map((item: any) => item.productId);
+    const products = await prisma.product.findMany({
+      where: { id: { in: productIds }, isActive: true },
+    });
+
+    if (products.length !== items.length) {
+      res.status(400).json({ error: 'Un ou plusieurs produits ne sont pas disponibles' });
+      return;
+    }
+
+    // Vérifier les stocks
+    for (const item of items) {
+      const product = products.find((p) => p.id === item.productId);
+      if (!product || product.stock < item.quantity) {
+        res.status(400).json({ error: `Stock insuffisant pour ${product?.nameFr || 'un produit'}` });
+        return;
+      }
+    }
+
+    // Calculer les totaux
+    let subtotal = 0;
+    const orderItems = items.map((item: any) => {
+      const product = products.find((p) => p.id === item.productId)!;
+      const itemTotal = Number(product.price) * item.quantity;
+      subtotal += itemTotal;
+      return {
+        productId: item.productId,
+        nameFr: product.nameFr,
+        nameEn: product.nameEn,
+        quantity: item.quantity,
+        price: product.price,
+      };
+    });
+
+    const shipping = subtotal >= 50 ? 0 : 5.99;
+    const total = subtotal + shipping;
+
+    // Créer la commande directement en PAID (mode test)
+    const order = await prisma.order.create({
+      data: {
+        orderNumber: generateOrderNumber(),
+        userId: req.user!.id,
+        addressId,
+        subtotal,
+        shipping,
+        total,
+        notes,
+        status: 'PAID', // Directement payée pour le test
+        items: {
+          create: orderItems,
+        },
+      },
+      include: {
+        items: true,
+        address: true,
+      },
+    });
+
+    // Mettre à jour les stocks
+    for (const item of items) {
+      await prisma.product.update({
+        where: { id: item.productId },
+        data: { stock: { decrement: item.quantity } },
+      });
+    }
+
+    console.log('[TEST MODE] Commande créée sans paiement:', order.orderNumber);
+    res.status(201).json(order);
+  } catch (error) {
+    console.error('Erreur lors de la création de la commande test:', error);
+    res.status(500).json({ error: 'Erreur lors de la création de la commande' });
+  }
+};
+
 export const cancelOrder = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;

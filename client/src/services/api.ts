@@ -83,6 +83,8 @@ export const ordersApi = {
   getById: (id: string) => api.get(`/orders/${id}`),
   create: (data: { items: { productId: string; quantity: number }[]; addressId: string; notes?: string }) =>
     api.post('/orders', data),
+  createTest: (data: { items: { productId: string; quantity: number }[]; addressId: string; notes?: string }) =>
+    api.post('/orders/test', data), // Mode test sans PayPal
   cancel: (id: string) => api.post(`/orders/${id}/cancel`),
   updateStatus: (id: string, status: string) => api.put(`/orders/${id}/status`, { status }),
 };
