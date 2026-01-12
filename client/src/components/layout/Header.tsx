@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ShoppingCart, User, Menu, X, Search, Shield, Globe } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, Shield, Globe } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 
@@ -9,17 +9,7 @@ export default function Header() {
   const { t, i18n } = useTranslation();
   const { isAuthenticated, isAdmin, logout } = useAuth();
   const { itemCount } = useCart();
-  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery('');
-    }
-  };
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'fr' ? 'en' : 'fr';
@@ -39,25 +29,16 @@ export default function Header() {
       {/* Main header */}
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <Shield className="h-8 w-8 text-primary-500" />
-            <span className="text-xl font-bold">SoundAndSafe</span>
-          </Link>
-
-          {/* Search bar - Desktop */}
-          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t('common.search')}
-                className="w-full px-4 py-2 pl-10 rounded-lg bg-dark-800 border border-dark-700 focus:outline-none focus:border-primary-500 text-white placeholder-dark-400"
-              />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-dark-400" />
-            </div>
-          </form>
+          {/* Logo + Produits */}
+          <div className="flex items-center space-x-8">
+            <Link to="/" className="flex items-center space-x-2">
+              <Shield className="h-8 w-8 text-primary-500" />
+              <span className="text-xl font-bold">SoundAndSafe</span>
+            </Link>
+            <Link to="/products" className="hidden md:block hover:text-primary-400 transition-colors font-medium">
+              {t('nav.allProducts')}
+            </Link>
+          </div>
 
           {/* Actions - Desktop */}
           <div className="hidden md:flex items-center space-x-4">
@@ -126,41 +107,12 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Navigation - Desktop */}
-        <nav className="hidden md:flex items-center space-x-6 py-3 border-t border-dark-800">
-          <Link to="/products" className="hover:text-primary-400 transition-colors">
-            {t('nav.allProducts')}
-          </Link>
-          <Link to="/products?category=sprays" className="hover:text-primary-400 transition-colors">
-            Sprays
-          </Link>
-          <Link to="/products?category=alarms" className="hover:text-primary-400 transition-colors">
-            Alarmes
-          </Link>
-          <Link to="/products?category=accessories" className="hover:text-primary-400 transition-colors">
-            Accessoires
-          </Link>
-        </nav>
       </div>
 
       {/* Mobile menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-dark-800 border-t border-dark-700">
           <div className="container mx-auto px-4 py-4 space-y-4">
-            {/* Search */}
-            <form onSubmit={handleSearch}>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t('common.search')}
-                  className="w-full px-4 py-2 pl-10 rounded-lg bg-dark-900 border border-dark-700 focus:outline-none focus:border-primary-500"
-                />
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-dark-400" />
-              </div>
-            </form>
-
             {/* Navigation links */}
             <nav className="space-y-2">
               <Link

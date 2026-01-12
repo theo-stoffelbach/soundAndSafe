@@ -55,7 +55,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-dark-900 via-primary-900 to-dark-900 text-white py-20 lg:py-32">
+      <section className="relative min-h-[80vh] flex items-center bg-gradient-to-br from-dark-900 via-primary-900 to-dark-900 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl">
             <h1 className="text-4xl lg:text-6xl font-bold mb-6">
@@ -66,7 +66,7 @@ export default function Home() {
             </p>
             <Link
               to="/products"
-              className="btn-primary text-lg px-8 py-4"
+              className="inline-block bg-primary-600 hover:bg-primary-700 text-white font-semibold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
             >
               {t('home.hero.cta')}
             </Link>
@@ -147,7 +147,7 @@ export default function Home() {
               <Link
                 key={category.id}
                 to={`/products?category=${category.slug}`}
-                className="group relative overflow-hidden rounded-xl bg-dark-900 h-48"
+                className="group relative overflow-hidden rounded-2xl bg-dark-900 h-64 shadow-xl"
               >
                 {category.image && (
                   <img
@@ -172,15 +172,15 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-primary-600 text-white">
+      <section className="py-24 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">
             Protégez-vous et vos proches
           </h2>
-          <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-primary-100 mb-10 max-w-2xl mx-auto leading-relaxed">
             Nos produits sont conçus pour vous offrir tranquillité d'esprit et sécurité au quotidien.
           </p>
-          <Link to="/products" className="btn bg-white text-primary-600 hover:bg-dark-100 px-8 py-4">
+          <Link to="/products" className="inline-block bg-white text-primary-700 font-bold px-10 py-5 rounded-xl hover:bg-dark-100 transition-all duration-300 shadow-2xl hover:-translate-y-1">
             Découvrir nos produits
           </Link>
         </div>
