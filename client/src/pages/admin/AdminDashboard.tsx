@@ -59,7 +59,7 @@ export default function AdminDashboard() {
   const statCards = [
     {
       label: t('admin.revenue'),
-      value: `${(stats?.totalRevenue || 0).toFixed(2)}€`,
+      value: `${Number(stats?.totalRevenue || 0).toFixed(2)}€`,
       icon: DollarSign,
       color: 'bg-green-100 text-green-600',
     },
