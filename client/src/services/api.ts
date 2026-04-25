@@ -94,7 +94,10 @@ export const usersApi = {
   getAll: (params?: { search?: string; page?: number; limit?: number }) =>
     api.get('/users', { params }),
   getById: (id: string) => api.get(`/users/${id}`),
+  update: (id: string, data: { firstName?: string; lastName?: string; email?: string; phone?: string; role?: string }) =>
+    api.put(`/users/${id}`, data),
   updateRole: (id: string, role: string) => api.put(`/users/${id}/role`, { role }),
+  delete: (id: string) => api.delete(`/users/${id}`),
 };
 
 // Addresses
@@ -119,4 +122,23 @@ export const paypalApi = {
   getClientId: () => api.get('/paypal/client-id'),
   createOrder: (orderId: string) => api.post('/paypal/create-order', { orderId }),
   captureOrder: (paypalOrderId: string) => api.post('/paypal/capture-order', { paypalOrderId }),
+};
+
+// Upload
+export const uploadApi = {
+  uploadImage: (file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    return api.post('/upload/image', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  uploadImages: (files: File[]) => {
+    const formData = new FormData();
+    files.forEach((file) => formData.append('images', file));
+    return api.post('/upload/images', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  deleteImage: (filename: string) => api.delete(`/upload/${filename}`),
 };

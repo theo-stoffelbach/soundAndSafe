@@ -3,6 +3,8 @@ import {
   getUsers,
   getUserById,
   updateUserRole,
+  updateUser,
+  deleteUser,
   getAddresses,
   createAddress,
   updateAddress,
@@ -15,7 +17,9 @@ const router = Router();
 // Routes admin
 router.get('/', authenticate, requireAdmin, getUsers);
 router.get('/:id', authenticate, requireAdmin, getUserById);
+router.put('/:id', authenticate, requireAdmin, updateUser);
 router.put('/:id/role', authenticate, requireAdmin, updateUserRole);
+router.delete('/:id', authenticate, requireAdmin, deleteUser);
 
 // Routes adresses (pour l'utilisateur connecté)
 router.get('/me/addresses', authenticate, getAddresses);

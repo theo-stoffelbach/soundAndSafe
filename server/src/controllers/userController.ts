@@ -120,6 +120,93 @@ export const updateUserRole = async (req: Request, res: Response) => {
   }
 };
 
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { firstName, lastName, phone, email, role } = req.body;
+
+    // Vérifier si l'utilisateur existe
+    const existingUser = await prisma.user.findUnique({ where: { id } });
+    if (!existingUser) {
+      res.status(404).json({ error: 'Utilisateur non trouvé' });
+      return;
+    }
+
+    // Vérifier si l'email est déjà utilisé par un autre utilisateur
+    if (email && email !== existingUser.email) {
+      const emailExists = await prisma.user.findUnique({ where: { email } });
+      if (emailExists) {
+        res.status(400).json({ error: 'Cet email est déjà utilisé' });
+        return;
+      }
+    }
+
+    // Valider le rôle si fourni
+    if (role && !['CUSTOMER', 'ADMIN'].includes(role)) {
+      res.status(400).json({ error: 'Rôle invalide' });
+      return;
+    }
+
+    const user = await prisma.user.update({
+      where: { id },
+      data: {
+        ...(firstName && { firstName }),
+        ...(lastName && { lastName }),
+        ...(phone !== undefined && { phone }),
+        ...(email && { email }),
+        ...(role && { role }),
+      },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+        _count: { select: { orders: true } },
+      },
+    });
+
+    res.json(user);
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour de l\'utilisateur:', error);
+    res.status(500).json({ error: 'Erreur lors de la mise à jour de l\'utilisateur' });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: { _count: { select: { orders: true } } },
+    });
+
+    if (!user) {
+      res.status(404).json({ error: 'Utilisateur non trouvé' });
+      return;
+    }
+
+    if (user._count.orders > 0) {
+      res.status(400).json({ error: 'Impossible de supprimer un utilisateur avec des commandes' });
+      return;
+    }
+
+    // Supprimer les adresses d'abord
+    await prisma.address.deleteMany({ where: { userId: id } });
+
+    // Supprimer l'utilisateur
+    await prisma.user.delete({ where: { id } });
+
+    res.json({ message: 'Utilisateur supprimé avec succès' });
+  } catch (error) {
+    console.error('Erreur lors de la suppression de l\'utilisateur:', error);
+    res.status(500).json({ error: 'Erreur lors de la suppression de l\'utilisateur' });
+  }
+};
+
 // Gestion des adresses pour les utilisateurs
 export const getAddresses = async (req: AuthRequest, res: Response) => {
   try {

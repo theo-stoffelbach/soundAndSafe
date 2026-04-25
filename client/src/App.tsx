@@ -27,6 +27,7 @@ import OrderDetail from './pages/account/OrderDetail';
 // Pages admin
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
+import AdminProductEdit from './pages/admin/AdminProductEdit';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminUsers from './pages/admin/AdminUsers';
 
@@ -59,6 +60,7 @@ function App() {
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProducts />} />
+                <Route path="products/:id" element={<AdminProductEdit />} />
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="orders/:id" element={<AdminOrders />} />
                 <Route path="users" element={<AdminUsers />} />
